@@ -12,16 +12,18 @@ export default function MealsContextProvider({children}) {
     async function getMeals() {
       const response = await fetch('http://localhost:3000/meals');
       const resData = await response.json();
-      setMeals(resData.meals);
+      setMeals(resData);
     }
 
     getMeals();
   }, [])
 
-  console.log(meals)
+  console.log(meals);
+
+  const ctxValue = meals;
 
   return (
-    <MealsContext.Provider value={mealsCtx}>
+    <MealsContext.Provider value={ctxValue}>
       {children}
     </MealsContext.Provider>
   )
