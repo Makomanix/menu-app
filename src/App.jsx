@@ -1,4 +1,5 @@
-import MealsContextProvider from "./Store/MealsContextProvider";
+import MealContextProvider from "./Store/MealsContextProvider";
+import CartContextProvider from "./Store/CartContextProvider";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 
@@ -6,10 +7,12 @@ import Menu from "./components/Menu";
 function App() {
 
   return (
-    <MealsContextProvider>
+    <MealContextProvider>
+    <CartContextProvider>
       <Header />
       <Menu />
-    </MealsContextProvider>
+    </CartContextProvider>
+    </MealContextProvider>
   );
 }
 

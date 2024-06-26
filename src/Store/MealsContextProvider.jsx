@@ -1,12 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 
-export const MealsContext = createContext({
-  items: [],
+export const MealContext = createContext({
+  mealItems: [],
 });
 
-export default function MealsContextProvider({children}) {
+export default function MealContextProvider({children}) {
 
-  const [ meals, setMeals ] = useState([]);
+  const [ mealItems, setMeals ] = useState([]);
 
   useEffect(() => {
     async function getMeals() {
@@ -18,13 +18,11 @@ export default function MealsContextProvider({children}) {
     getMeals();
   }, [])
 
-  console.log(meals);
-
-  const ctxValue = meals;
+  const ctxValue = mealItems;
 
   return (
-    <MealsContext.Provider value={ctxValue}>
+    <MealContext.Provider value={ctxValue}>
       {children}
-    </MealsContext.Provider>
+    </MealContext.Provider>
   )
 }

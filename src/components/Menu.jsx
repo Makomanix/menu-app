@@ -1,18 +1,18 @@
 import { useContext } from "react"
 
-import { MealsContext } from "../Store/MealsContextProvider"
+import { MealContext } from "../Store/MealsContextProvider"
 import MenuItem from "./MenuItem"
 
 export default function Menu() {
 
-  const items = useContext(MealsContext)
+  const mealItems = useContext(MealContext)
 
 
   return (
     <section >
-      <ul className="meals">{items.map(item => (
-        <li key={item.id} className="meal-item">
-          <MenuItem {...item} />
+      <ul className="meals">{mealItems.map(mealItem => (
+        <li key={mealItem.id} className="meal-item">
+          <MenuItem meal={mealItem} />
         </li>
       ))}</ul>
     </section>

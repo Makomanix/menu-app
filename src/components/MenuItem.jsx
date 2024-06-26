@@ -2,22 +2,33 @@ import { useContext } from "react"
 
 import { CartContext } from "../Store/CartContextProvider"
 
-export default function MenuItem({
-  name,
-  price,
-  description,
-  image
-}) {
-  const { items, addItemToCart, updateItemQuantity} = useContext(CartContext)
 
-  const itemButtons = items.indexOf(name) ?
-    (<div>
-      <button>Subtract</button>
-      <p>#</p>
-      <button>Add</button>
-    </div>) 
+export default function MenuItem({ meal }) {
+  const { id, name, price, description, image } = meal;
+  const { cartItems, addItemToCart, updateItemQuantity} = useContext(CartContext);
+
+  const itemInCart = cartItems.find((item) => item.id === meal.id)
+
+  function findItemInCart(meal, value){
+    if (itemInCart) {
+      updateItemQuantity(meal.id, value)
+    } else {
+      addItemToCart(meal);
+    }
+  } 
+
+  const itemButtons = itemInCart ?
+  (<div>
+    <button onClick={() => findItemInCart(meal, -1)}>Subtract</button>
+    <p>#</p>
+    <button onClick={() => findItemInCart(meal, 1)}>Add</button>
+  </div>) 
     :
-    <button className="meal-item-actions button">Add to Cart</button> 
+    <button 
+      onClick={() => findItemInCart(meal)}
+      className="meal-item-actions button"
+      >Add to Cart
+    </button> 
 
 
   return (
