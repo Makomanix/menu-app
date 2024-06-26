@@ -11,21 +11,31 @@ export default function CartContextProvider({children}) {
 
   function handleAddItemToCart(meal) {
     setCart(prevCart => {
-      const itemInCart = prevCart.filter((cartItem) => cartItem.name === meal.name);
-      console.log(itemInCart)
-      if (itemInCart.length > 0) {
-        console.log('what?')
-        handleUpdateItemQuantity(meal.id, 1)
-        return;
-      }
+      console.log(meal)
       return [...prevCart, meal]
     });
   }
 
   function handleUpdateItemQuantity(id, value) {
-    console.log('meal updated', id, value)
+    setCart(prevCart => {
+
+      let updatedItems = [...prevCart]
+
+      const mealIndex = updatedItems.findIndex(item => item.id === id)
+      console.log(mealIndex);
+      
+      const updatedItem = { ...updatedItems[mealIndex] };
+      updatedItem.quantity += value;
+      console.log(updatedItem);
+        
+      if (updatedItem.quantity <= 0) {
+        updatedItems = updatedItems.filter(item => item.id !== id)
+      } else {
+        updatedItems[mealIndex] = updatedItem;
+      }
+      return updatedItems
+    })
   }
-  console.log(cart);
 
   const ctxValue = {
     cartItems: cart,

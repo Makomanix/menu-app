@@ -4,23 +4,28 @@ import { CartContext } from "../Store/CartContextProvider"
 
 
 export default function MenuItem({ meal }) {
-  const { id, name, price, description, image } = meal;
+  const { id, name, price, description, image, quantity } = meal;
   const { cartItems, addItemToCart, updateItemQuantity} = useContext(CartContext);
 
   const itemInCart = cartItems.find((item) => item.id === meal.id)
+
+  console.log(itemInCart);
 
   function findItemInCart(meal, value){
     if (itemInCart) {
       updateItemQuantity(meal.id, value)
     } else {
+      meal.quantity = 1;
       addItemToCart(meal);
     }
   } 
 
+  console.log(quantity);
+
   const itemButtons = itemInCart ?
   (<div>
     <button onClick={() => findItemInCart(meal, -1)}>Subtract</button>
-    <p>#</p>
+    <p>{itemInCart.quantity}</p>
     <button onClick={() => findItemInCart(meal, 1)}>Add</button>
   </div>) 
     :
