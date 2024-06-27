@@ -9,8 +9,6 @@ export default function MenuItem({ meal }) {
 
   const itemInCart = cartItems.find((item) => item.id === meal.id)
 
-  console.log(itemInCart);
-
   function findItemInCart(meal, value){
     if (itemInCart) {
       updateItemQuantity(meal.id, value)
@@ -20,20 +18,16 @@ export default function MenuItem({ meal }) {
     }
   } 
 
-  console.log(quantity);
-
   const itemButtons = itemInCart ?
-  (<div>
-    <button onClick={() => findItemInCart(meal, -1)}>Subtract</button>
+  (<div className="meal-item-counter">
+    <button onClick={() => findItemInCart(meal, -1)}>-</button>
     <p>{itemInCart.quantity}</p>
-    <button onClick={() => findItemInCart(meal, 1)}>Add</button>
+    <button onClick={() => findItemInCart(meal, 1)}>+</button>
   </div>) 
     :
-    <button 
-      onClick={() => findItemInCart(meal)}
-      className="meal-item-actions button"
-      >Add to Cart
-    </button> 
+    <div className="meal-item-actions">
+      <button className='button' onClick={() => findItemInCart(meal)}>Add to Cart</button>
+    </div> 
 
 
   return (

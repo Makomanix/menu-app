@@ -2,18 +2,35 @@ import { useState, createContext } from 'react'
 
 export const CartContext = createContext({
   cartItems: [],
+  totalCartPrice: '',
+  totalCartCount: '',
   addItemToCart: () => {},
-  updateItemQuantity: () => {}
+  updateItemQuantity: () => {},
+  toggleCartActive: () => {},
 });
 
 export default function CartContextProvider({children}) {
-  const [ cart, setCart ] = useState([])
+  const [ cart, setCart ] = useState([]);
+  const [ isCartActive, setIsCartActive ] = useState(true);
 
   function handleAddItemToCart(meal) {
     setCart(prevCart => {
-      console.log(meal)
       return [...prevCart, meal]
     });
+  }
+
+  console.log(cart.length);
+
+  const totalCartCount = cart.length === 0 ? '0' : cart.reduce((total, item) => {
+    return total + item.quantity;
+  }, 0)
+
+  const totalCartPrice = cart.length === 0 ? '0' : cart.reduce((total, item) => {
+    return total + item.price;
+  }, 0)
+
+  function handleToggleCartCheckout() {
+    setIsCartActive(prevState => !prevState)
   }
 
   function handleUpdateItemQuantity(id, value) {
@@ -22,11 +39,9 @@ export default function CartContextProvider({children}) {
       let updatedItems = [...prevCart]
 
       const mealIndex = updatedItems.findIndex(item => item.id === id)
-      console.log(mealIndex);
       
       const updatedItem = { ...updatedItems[mealIndex] };
       updatedItem.quantity += value;
-      console.log(updatedItem);
         
       if (updatedItem.quantity <= 0) {
         updatedItems = updatedItems.filter(item => item.id !== id)
@@ -39,8 +54,12 @@ export default function CartContextProvider({children}) {
 
   const ctxValue = {
     cartItems: cart,
+    totalPrice: totalCartPrice,
+    totalCount: totalCartCount,
     addItemToCart: handleAddItemToCart,
-    updateItemQuantity: handleUpdateItemQuantity
+    updateItemQuantity: handleUpdateItemQuantity,
+    toggleCartActive: handleToggleCartCheckout,
+    isCartActive: isCartActive
   }
 
   return (

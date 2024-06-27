@@ -1,27 +1,37 @@
 import { useContext, useRef } from 'react'
 
 import logo from '../assets/logo.jpg'
-import CartModal from './CartModal'
+import Modal from './Modal'
+import { CartContext } from '../Store/CartContextProvider';
 
 export default function Header() {
+  const modal = useRef();
+  const { totalCount, isCartActive } = useContext(CartContext)
 
-  // const modal = useRef();
+  function handleOpenCartClick() {
+    modal.current.open()
+  }
 
-  let modalActions = <button>Close</button>
+  console.log(totalCount);
 
   return (
     <>
-      {/* <CartModal 
+    { isCartActive ?
+      <Modal 
         ref={modal}
         title='Your Cart'
-        actions={modalActions}
-      /> */}
+        checkout={handleOpenCartClick}
+      /> :
+      <Modal 
+        ref={modal}
+        title='Checkout'
+      />}
       <header className='main-header'>
         <div className='title'>
           <img src={logo}/>
           <h1>REACTFOOD</h1>
         </div>
-        <button className='button'>Cart (#)</button>
+        <button className='button' onClick={handleOpenCartClick}>Cart({totalCount})</button>
       </header>
     </>
   )
