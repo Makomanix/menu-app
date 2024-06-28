@@ -2,8 +2,8 @@ import { useState, createContext } from 'react'
 
 export const CartContext = createContext({
   cartItems: [],
-  totalCartPrice: '',
-  totalCartCount: '',
+  totalPrice: '',
+  totalCount: '',
   addItemToCart: () => {},
   updateItemQuantity: () => {},
   toggleCartActive: () => {},
@@ -26,8 +26,10 @@ export default function CartContextProvider({children}) {
   }, 0)
 
   const totalCartPrice = cart.length === 0 ? '0' : cart.reduce((total, item) => {
-    return total + item.price;
+    return total + (item.price * item.quantity);
   }, 0)
+
+  console.log(totalCartPrice);
 
   function handleToggleCartCheckout() {
     setIsCartActive(prevState => !prevState)

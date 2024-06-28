@@ -8,29 +8,21 @@ export default function Header() {
   const modal = useRef();
   const { totalCount, isCartActive } = useContext(CartContext)
 
-  function handleOpenCartClick() {
-    modal.current.open()
+  function handleOpenModal() {
+    modal.current.open();
   }
 
-  console.log(totalCount);
+  const modalTitle = isCartActive ? "Your Cart" : "Checkout";
 
   return (
     <>
-    { isCartActive ?
-      <Modal 
-        ref={modal}
-        title='Your Cart'
-      /> :
-      <Modal 
-        ref={modal}
-        title='Checkout'
-      />}
+    <Modal ref={modal} title={modalTitle}/>
       <header className='main-header'>
         <div className='title'>
           <img src={logo}/>
           <h1>REACTFOOD</h1>
         </div>
-        <button className='button' onClick={handleOpenCartClick}>Cart({totalCount})</button>
+        <button className='button' onClick={handleOpenModal}>Cart({totalCount})</button>
       </header>
     </>
   )

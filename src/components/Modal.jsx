@@ -4,23 +4,32 @@ import Checkout from "./Checkout"
 import Cart from "./Cart"
 import { CartContext } from "../Store/CartContextProvider"
 
-const Modal = forwardRef(function Modal( {title, checkout},
-  ref
-) {
+const Modal = forwardRef(function Modal({ title }, ref) {
   const dialog = useRef();
-  const {toggleCartActive, isCartActive} = useContext(CartContext)
+  const { toggleCartActive } = useContext(CartContext);
+
+  useImperativeHandle(ref, () => {
+    return {
+      open: () => {
+        dialog.current.showModal();
+      },
+    };
+  });
 
   let actions;
 
-  console.log(isCartActive);
-
-
-  if (isCartActive ) {
-    actions = (
-      <>
-        <button>Close</button>
-      </>
+  if ( title === 'Your Cart' ) {
+    actions = ( 
+        <div>
+          <button onClick={onClose}>Close</button>
+          <button onClick={toggleCartActive}>Checkout</button>
+        </div>
     ) 
+  } else {
+      <div>
+        <button onClick={toggleCartActive}>Back</button>
+        <button onClick={onPost}>Submit</button>
+      </div>
   }
 
   function onPost(){
@@ -32,27 +41,12 @@ const Modal = forwardRef(function Modal( {title, checkout},
     dialog.current.close();
   }
 
-  useImperativeHandle(ref, () => {
-    return {
-      open: () => {
-        dialog.current.showModal()
-      },
-    };
-  });
 
   return createPortal(
     <dialog id="modal" ref={dialog} >
       <h2>{title}</h2>
-      { isCartActive ?
-      <>
-        <button onClick={onClose}>Close</button>
-        <button onClick={toggleCartActive}>Checkout</button>
-      </>
-      :
-      <>
-        <button onClick={toggleCartActive}>Back</button>
-        <button onClick={onPost}>Submit</button>
-      </>}
+      {title === 'Your Cart' ? <Cart /> : <Checkout />}
+      {actions}
     </dialog>,
     document.getElementById('modal')
   )
