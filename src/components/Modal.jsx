@@ -14,25 +14,22 @@ const Modal = forwardRef(function Modal( {title, checkout},
 
   console.log(isCartActive);
 
-  function doIt() {
-    toggleCartActive();
-    checkout();
-  }
 
-  if ( isCartActive ) {
+  if (isCartActive ) {
     actions = (
       <>
         <button>Close</button>
-        {/* <button onClick={doIt}>Checkout</button> */}
       </>
     ) 
-  } else {
-    actions = (
-      <>
-        <button onClick={toggleCartActive}>Back</button>
-        <button onClick={toggleCartActive}>Submit</button>
-      </>
-    )
+  }
+
+  function onPost(){
+    toggleCartActive();
+    onClose();
+  }
+
+  function onClose(){
+    dialog.current.close();
   }
 
   useImperativeHandle(ref, () => {
@@ -46,11 +43,16 @@ const Modal = forwardRef(function Modal( {title, checkout},
   return createPortal(
     <dialog id="modal" ref={dialog} >
       <h2>{title}</h2>
-      <form method="dialog">
-        {actions}
-      </form>
-      { isCartActive &&
-      <button onClick={toggleCartActive}>Checkout</button>}
+      { isCartActive ?
+      <>
+        <button onClick={onClose}>Close</button>
+        <button onClick={toggleCartActive}>Checkout</button>
+      </>
+      :
+      <>
+        <button onClick={toggleCartActive}>Back</button>
+        <button onClick={onPost}>Submit</button>
+      </>}
     </dialog>,
     document.getElementById('modal')
   )

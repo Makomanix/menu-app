@@ -20,7 +20,6 @@ export default function Header() {
       <Modal 
         ref={modal}
         title='Your Cart'
-        checkout={handleOpenCartClick}
       /> :
       <Modal 
         ref={modal}
