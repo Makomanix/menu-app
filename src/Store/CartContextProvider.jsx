@@ -4,6 +4,8 @@ export const CartContext = createContext({
   cartItems: [],
   totalPrice: '',
   totalCount: '',
+  cartUser: {},
+  onUserChange: () => {},
   addItemToCart: () => {},
   updateItemQuantity: () => {},
   toggleCartActive: () => {},
@@ -12,11 +14,20 @@ export const CartContext = createContext({
 export default function CartContextProvider({children}) {
   const [ cart, setCart ] = useState([]);
   const [ isCartActive, setIsCartActive ] = useState(true);
+  const [ cartUser, setCartUser ] = useState({})
 
   function handleAddItemToCart(meal) {
     setCart(prevCart => {
       return [...prevCart, meal]
     });
+  }
+
+  function handleUserChange(value) {
+    setCartUser(prevUser => ({
+      ...prevUser,
+      
+    }))
+
   }
 
   console.log(cart.length);
@@ -58,10 +69,12 @@ export default function CartContextProvider({children}) {
     cartItems: cart,
     totalPrice: totalCartPrice,
     totalCount: totalCartCount,
+    isCartActive: isCartActive,
+    cartUser: cartUser,
     addItemToCart: handleAddItemToCart,
     updateItemQuantity: handleUpdateItemQuantity,
     toggleCartActive: handleToggleCartCheckout,
-    isCartActive: isCartActive
+    onUserChange: handleUserChange,
   }
 
   return (

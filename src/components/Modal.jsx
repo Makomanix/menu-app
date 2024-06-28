@@ -29,7 +29,7 @@ const Modal = forwardRef(function Modal({ title }, ref) {
     actions = (
       <div>
         <button onClick={toggleCartActive}>Back</button>
-        <button onClick={onPost}>Submit</button>
+        <button onClick={onPost}>Submit Order</button>
       </div>
     )
   }
