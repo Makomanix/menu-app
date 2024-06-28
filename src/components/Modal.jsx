@@ -26,10 +26,12 @@ const Modal = forwardRef(function Modal({ title }, ref) {
         </div>
     ) 
   } else {
+    actions = (
       <div>
         <button onClick={toggleCartActive}>Back</button>
         <button onClick={onPost}>Submit</button>
       </div>
+    )
   }
 
   function onPost(){
@@ -41,6 +43,7 @@ const Modal = forwardRef(function Modal({ title }, ref) {
     dialog.current.close();
   }
 
+  console.log(actions)
 
   return createPortal(
     <dialog id="modal" ref={dialog} >
