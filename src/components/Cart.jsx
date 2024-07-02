@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { CartContext } from "../Store/CartContextProvider"
 import CartItem from "./CartItem";
 
-export default function Cart() {
+export default function Cart({actions}) {
   const { cartItems, totalPrice} = useContext(CartContext);
 
   const mealsInCart = <ul className="">
@@ -13,12 +13,11 @@ export default function Cart() {
     ))}
   </ul>
 
-  console.log(cartItems.map(item => item.name))
-
   return (
     <div>
       {mealsInCart}
       <p>Total {totalPrice}</p>
+      {actions}
     </div>
   )
 }

@@ -5,16 +5,32 @@ export const CartContext = createContext({
   totalPrice: '',
   totalCount: '',
   cartUser: {},
+  isOrdered: '',
   onUserChange: () => {},
   addItemToCart: () => {},
   updateItemQuantity: () => {},
   toggleCartActive: () => {},
+  handleOrdered: () => {}
 });
 
 export default function CartContextProvider({children}) {
   const [ cart, setCart ] = useState([]);
   const [ isCartActive, setIsCartActive ] = useState(true);
-  const [ cartUser, setCartUser ] = useState({})
+  const [ isOrdered, setIsOrdered] = useState(false)
+  const [ cartUser, setCartUser ] = useState({
+    name: '',
+    email: '',
+    street: '',
+    city: '',
+    postal: '',
+  })
+
+  function handleOrdered() {
+    setIsOrdered(prevOrder => !prevOrder);
+    setCart([]);
+  }
+
+  console.log(isOrdered);
 
   function handleAddItemToCart(meal) {
     setCart(prevCart => {
@@ -22,15 +38,14 @@ export default function CartContextProvider({children}) {
     });
   }
 
-  function handleUserChange(value) {
+  function handleUserChange(e) {
+    const { name, value } = e.target;
+    console.log(name, value);
     setCartUser(prevUser => ({
       ...prevUser,
-      
+      [name]: value,
     }))
-
   }
-
-  console.log(cart.length);
 
   const totalCartCount = cart.length === 0 ? '0' : cart.reduce((total, item) => {
     return total + item.quantity;
@@ -39,8 +54,6 @@ export default function CartContextProvider({children}) {
   const totalCartPrice = cart.length === 0 ? '0' : cart.reduce((total, item) => {
     return total + (item.price * item.quantity);
   }, 0)
-
-  console.log(totalCartPrice);
 
   function handleToggleCartCheckout() {
     setIsCartActive(prevState => !prevState)
@@ -71,10 +84,12 @@ export default function CartContextProvider({children}) {
     totalCount: totalCartCount,
     isCartActive: isCartActive,
     cartUser: cartUser,
+    isOrdered: isOrdered,
     addItemToCart: handleAddItemToCart,
     updateItemQuantity: handleUpdateItemQuantity,
     toggleCartActive: handleToggleCartCheckout,
     onUserChange: handleUserChange,
+    handleOrdered: handleOrdered
   }
 
   return (

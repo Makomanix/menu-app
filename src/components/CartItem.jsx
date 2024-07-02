@@ -5,8 +5,6 @@ export default function CartItem({ meal }) {
   const {id, name, price, quantity } = meal;
   const { updateItemQuantity } = useContext(CartContext);
 
-  console.log(quantity);
-
   return (
     <span>
       <p className="">{name} - {quantity}x{price}</p>
