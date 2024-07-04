@@ -28,7 +28,7 @@ export default function Checkout({actions}) {
   
   return (
     <>
-      <h3>Total Amount: {totalPrice}</h3>
+      <h3>Total Amount: ${totalPrice}</h3>
       <form onSubmit={handleSubmit}>
         <label >
           <input type="text" id="name" name='name' placeholder="Full Name" required className="" onChange={(e) => onUserChange(e)} value={cartUser.name}/>

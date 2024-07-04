@@ -5,19 +5,22 @@ import CartItem from "./CartItem";
 export default function Cart({actions}) {
   const { cartItems, totalPrice} = useContext(CartContext);
 
-  const mealsInCart = <ul className="">
-    {cartItems.map((cartItem) => (
-      <li key={cartItem.id} className="">
-        <CartItem meal={cartItem}/>
-      </li>
-    ))}
-  </ul>
+  const mealsInCart = 
+  <div className="cart">
+    <ul>
+      {cartItems.map((cartItem) => (
+        <li key={cartItem.id} >
+          <CartItem meal={cartItem}/>
+        </li>
+      ))}
+    </ul>
+  </div>
 
   return (
-    <div>
+    <>
       {mealsInCart}
-      <p>Total {totalPrice}</p>
+      <p>Total ${totalPrice}</p>
       {actions}
-    </div>
+    </>
   )
 }

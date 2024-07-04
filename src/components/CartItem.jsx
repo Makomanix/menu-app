@@ -7,7 +7,7 @@ export default function CartItem({ meal }) {
 
   return (
     <span>
-      <p className="">{name} - {quantity}x{price}</p>
+      <p className="">{name} - {quantity} x ${price}</p>
       <p className="">
         <button className="" onClick={() => updateItemQuantity(id, -1)}>-</button>
         {quantity}
